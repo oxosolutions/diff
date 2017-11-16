@@ -254,6 +254,7 @@ class SurveyStatsController extends Controller
         $filter_fields = null;
         $table = Session::get('organization_id')."_survey_results_".$id;
         if(!Schema::hasTable($table)){
+          // dd(get_organization_id(), $table , 12134345);
            $error = "survey_results_table_missing";
           return view('organization.survey.survey_reports',compact('error'));
         }
@@ -267,14 +268,12 @@ class SurveyStatsController extends Controller
 
         $slug_question_id = collect($field)->mapWithKeys(function($item){
             $section_type =null;
-              if(isset($item['section']['section_meta']) && count($item['section']['section_meta']) >0){
-                  if($item['section']['section_meta'][0]['key']=='section_type'){
-                    $section_type = $item['section']['section_meta'][0]['value'];
-                    if(isset($item['section']['section_meta'][0]['key']) && $item['section']['section_meta'][0]['key']=='section_type'){    
-                        $section_type = $item['section']['section_meta'][0]['value'];                  
-                         }   
-                  }
+            if(isset($item['section']['section_meta']) && count($item['section']['section_meta']) >0){
+
+              if(isset($item['section']['section_meta'][0]['key']) && $item['section']['section_meta'][0]['key']=='section_type'){
+                  $section_type = $item['section']['section_meta'][0]['value'];
               }
+            }
             return [$item['field_slug']=>[$item['field_type'] , $item['field_meta'][0]['value'], $item['id'], $item], $item['section']['section_slug'] =>$section_type];
         });
 
@@ -282,8 +281,8 @@ class SurveyStatsController extends Controller
         $sec_repeater =  section::with(['sectionMeta'=>function($query){
         },'fields'])->where('form_id',$id)->get();
 
-        foreach ($sec_repeater as $key => $value) {// dump($key , $value['sectionMeta']);
-          if( isset($value['sectionMeta'])  &&  count($value['sectionMeta']) >0  &&  $value['sectionMeta'][0]['value']=='repeater'){{
+        foreach ($sec_repeater as $key => $value) {// dump($key , $value['sectionMeta']); 
+           if( isset($value['sectionMeta'])  &&  count($value['sectionMeta']) >0  &&  $value['sectionMeta'][0]['value']=='repeater'){
                 $repeater_data[$index]['section_slug'] = $value['section_slug'];
                 foreach ($value['fields'] as $field_key => $field_value) {
                    $repeater_data[$index]['field_slug'][] =    $field_value['field_slug'];
@@ -390,19 +389,20 @@ class SurveyStatsController extends Controller
         }else{
           $condition_fields = $columns; 
         }
+       
       return view('organization.survey.survey_reports',compact('data','id','columns','table' ,'repeater_options_value' , 'links' ,'firstItem', 'lastItem' ,'condition_fields', 'filter_fields'));
     }
 
     protected function set_repeater_options_data($data, $repeater_data=Null , $options_val=Null){
-     
+   
       
-      foreach ($data as $key => $value) {
+       foreach ($data as $key => $value) {
               foreach ($value as $nextKey => $nextValue) {
                 if(isset($repeater_data[$nextKey])){
                     $rep = json_decode($value[$nextKey],true);
-                    if(!is_array($rep)){    
-                       $rep =[];   
-                      }
+                    if(!is_array($rep)){
+                      $rep =[];
+                    }
                       foreach ($repeater_data as $rkey => $rvalue) {
                        foreach ($rvalue['field_slug'] as $kkey => $vvalue) {
                         unset($data[$key][$nextKey]);
@@ -432,8 +432,7 @@ class SurveyStatsController extends Controller
       return $data;
     }
    
-  
-
+   
     public function survey_static_community_based(Request $request){
 
           $table_name = "235_survey_results_1";

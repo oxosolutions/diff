@@ -13,4 +13,7 @@ class Survey extends Model
     		$this->table = Session::get('organization_id').'_surveys';
     	}
     }
+
+   
+
 }

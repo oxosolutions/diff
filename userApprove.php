@@ -53,7 +53,7 @@ class userApprove extends Mailable
         $userEmail = GroupUsers::where('email',$email)->first()['email'];
 
         $sendFrom = get_organization_meta('from_email');
-        
+
             if($sendFrom != null){
                 $from = $sendFrom;
             }else{

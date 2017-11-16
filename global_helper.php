@@ -78,7 +78,8 @@ function field_options($slug ,$id=null){
 
 	if(!empty($form['field_meta'])){
 		if(!empty($form['field_meta'][0]['value'])){
-			return $options = collect(json_decode($form['field_meta'][0]['value'],true))->pluck('value','key')->all();
+			$options = collect(json_decode($form['field_meta'][0]['value'],true))->pluck('value','key')->all();
+ 			return $options;
 		}	
 	}
 	return null;

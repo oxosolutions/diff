@@ -64,7 +64,7 @@ class forgetPassword extends Mailable
 
 
         $userName = GroupUsers::where('id',Session::get('user_id'))->first()['name'];
-        
+
         $sendFrom = get_organization_meta('from_email');
         if($sendFrom != null){
             $from = $sendFrom;

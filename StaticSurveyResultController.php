@@ -15,7 +15,7 @@ class StaticSurveyResultController extends Controller
 {
         public function survey_static_result(Request $request ,$id){
       //survey id -> 1 , 2 , 5
-          $table_name = "235_survey_results_$id";
+          $table_name = "295_survey_results_$id";
          if(!Schema::hasTable($table_name)){
             $error['table_not_exist'] = "No Data Available";
             return view('organization.survey.survey_static_result', compact('error') );
@@ -44,14 +44,12 @@ class StaticSurveyResultController extends Controller
                   $data = DB::table($table_name)->select([ DB::raw("CONCAT(accident_site_state,' ',accident_site_district, ' ',accident_site_taluk, ' ',accident_site_village ) as address"), 'accident_date', 'accident_time', 'no_of_fatalities' ,'no_of_persons_grievously_injured','no_of_persons_with_minor_injuries','type_of_collision' ,'type_of_vehicle_involved','road_features','type_of_vehicle_involved']);
                     if(!empty($where)){
                        $data = $data->where($where)->get();
+
                     }else{
                       $data = $data->get();
                     }
-                    if($request->has('export')){
-                      dd($data);
 
-                    }
-
+                   
 
                  } catch (\Exception $e) {
                      $error['table_column_not_exist'] = "column not match";
@@ -145,7 +143,6 @@ class StaticSurveyResultController extends Controller
           $query->where('key','field_options');
         }])->where('field_slug','sub_type_of_road')->first()->toArray();
         $option_data = collect(json_decode($sub_type_of_road['field_meta'][0]['value'],true))->pluck('value','key')->toArray();
-
         return view('organization.survey.survey_static_result',compact('data','option_data' ,'last_two_week','id','fatal','grevious','minor'));
       }
     }

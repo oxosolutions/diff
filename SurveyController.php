@@ -130,7 +130,7 @@ class SurveyController extends Controller
 
 
                                     $options = json_decode(@$form_meta['field_options'],true);
-                                        $form_fields['next_question_key'] ="";
+                                $form_fields['next_question_key'] ="";
                                 if($fieldValue['field_type']=='select' ||  $fieldValue['field_type']=='multi_select' || $fieldValue['field_type']== 'radio' || $fieldValue['field_type'] == 'checkbox')
                                 {   $option = null;
                                     if(!empty($options)){
@@ -152,7 +152,7 @@ class SurveyController extends Controller
                                         {   $repeater_check = 1;
                                             
                                             $repeater_section =  ['question_text'=>'Fill the repeater', 'question_type'=>'repeater', 'question_key'=>$sectionValue['section_slug'], "question_id"=> $sectionValue['id'], "question_message"=> '', "required"=> '', "pattern"=> '', "otherPattern"=>'', "survey_id"=> $sectionValue['form_id'], "group_id"=> $sectionValue['id'],
-                                                        "question_order"=>' ', "question_desc"=> 'repeted', "created_at"=>date('Y-m-d',strtotime($sectionValue['created_at'])), "updated_at"=>date('Y-m-d',strtotime($sectionValue['updated_at'])), "deleted_at"=>'', "answers"=>[[]],'field_conditions'=>[],'field_validations'=>[],'fields'=>[] ,'next_question_key'=>'' ];                                
+                                                        "question_order"=>' ', "question_desc"=> 'repeted', "created_at"=>date('Y-m-d',strtotime($sectionValue['created_at'])), "updated_at"=>date('Y-m-d',strtotime($sectionValue['updated_at'])), "deleted_at"=>'', "answers"=>[[]],'fields'=>[],'field_conditions'=>[],'field_validations'=>[],'next_question_key'=>'' ];                                
                                                 array_push($repeater_section['fields'] ,  $form_fields);
                                         }elseif($section_type_value =='repeater'){
                                                 array_push($repeater_section['fields'] ,  $form_fields);  
@@ -300,7 +300,10 @@ class SurveyController extends Controller
             $colums[] =    "`survey_submitted_from` varchar(255) COLLATE utf8_unicode_ci NULL DEFAULT  NULL";
             $colums[] =    "`mac_address` varchar(255) COLLATE utf8_unicode_ci  NULL DEFAULT  NULL";
             $colums[] =    "`imei` varchar(255) COLLATE utf8_unicode_ci NULL DEFAULT  NULL";
-            $colums[] =    "`unique_id` varchar(255) COLLATE utf8_unicode_ci NULL DEFAULT  NULL";
+            // if(!in_array('unique_id', $colums)){
+                
+            // $colums[] =    "`unique_id` varchar(255) COLLATE utf8_unicode_ci NULL DEFAULT  NULL";
+            // }
             $colums[] =    "`device_detail` text COLLATE utf8_unicode_ci NULL DEFAULT  NULL";
             $colums[] =    "`created_by` int(11) COLLATE utf8_unicode_ci NULL";
             $colums[] =    "`created_at` text COLLATE utf8_unicode_ci  NULL DEFAULT NUll";

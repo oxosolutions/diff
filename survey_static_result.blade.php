@@ -113,8 +113,8 @@ $page_title_data = array(
 
 				
 				<div style="float: left;width: 400px">{!! FormGenerator::GenerateForm('static_survey_form_to') !!}</div>
-				{!! Form::submit('Search',['value'=>'Filters' , 'class'=>'aione-button aione-button-large aione-button-light aione-button-square add-new-button','style'=>'float:left']) !!}
-				{!! Form::submit('Export records as CSV',['name'=>'export','class'=>'aione-button aione-button-large aione-button-light aione-button-square add-new-button','style'=>'float:right']) !!}
+				{!! Form::submit('Search',['value'=>'Filter' , 'class'=>'aione-button aione-button-large aione-button-light aione-button-square add-new-button','style'=>'float:left']) !!}
+				{{-- {!! Form::submit('Export records as CSV',['name'=>'export','class'=>'aione-button aione-button-large aione-button-light aione-button-square add-new-button','style'=>'float:right']) !!} --}}
 				
 			</div>	
 				
@@ -246,8 +246,15 @@ $page_title_data = array(
 	       					if(!empty($vals['vehicle_related_details'])){
 			       				$vehicle_involve = collect(json_decode($vals['vehicle_related_details'],true));
 			       				$vehicle_value = $vehicle_involve->pluck('SID2_GID9_QID89')->all();
-			       				$result = array_intersect_key( $vehicle_type , array_flip( $vehicle_value ) );
-			       				echo implode(',<br> ', $result);
+
+			       				// $result = array_intersect_key( $vehicle_type , array_flip( $vehicle_value ) );
+			       				// echo implode(',<br> ', $result);
+
+			       					foreach ($vehicle_value as $vechileKey => $vehicleVal){
+		       							if(isset($vehicle_type[$vehicleVal])){
+		       						 	echo $vehicle_type[$vehicleVal].', ';
+		       							}
+		       						 }
 			       			}
 	       				 @endphp
 	       				 </td>
@@ -320,8 +327,16 @@ $page_title_data = array(
 	       						if(!empty($val['vehicle_related_details'])){
 		       						$vehicle_involve = collect(json_decode($val['vehicle_related_details'],true));
 		       						$vehicle_ids = $vehicle_involve->pluck('SID5_GID23_QID177')->toArray();
-		       						$intersect_key = array_intersect_key($vehicle_type, array_flip($vehicle_ids));
-		       						echo	implode(',<br> ',$intersect_key);
+		       							
+		       						 foreach ($vehicle_ids as $vechileKey => $vehicleVal){
+		       							if(isset($vehicle_type[$vehicleVal])){
+		       						 	echo $vehicle_type[$vehicleVal].', ';
+		       							}
+		       						 }
+		       							
+		       							
+		       						
+		       						
 		       					}
 	       					@endphp
 	       				</td>
