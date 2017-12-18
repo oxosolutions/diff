@@ -1120,7 +1120,9 @@ class DatasetController extends Controller
             foreach ($model as $key =>  $value) {
 
                   $model[$key] = array_combine($headers, $value);
+                  
                   unset($model[$key][1]);
+                  unset($model[$key][0]);
                   unset($model[0]);
               }
             Excel::create($name, function($excel) use($model) {
